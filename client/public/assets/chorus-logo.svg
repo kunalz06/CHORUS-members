@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">CHORUS production ticket logo</title>
+  <desc id="desc">Two yellow theatre tickets with CHORUS Production text.</desc>
+  <rect width="640" height="360" fill="#0a0a08" />
+  <g transform="translate(62 40) rotate(-10 258 140)">
+    <path
+      d="M35 58h450c0 26 20 47 45 47v74c-25 0-45 21-45 47H35c0-26-20-47-45-47v-74c25 0 45-21 45-47Z"
+      fill="#d9ad2b"
+      stroke="#8f421d"
+      stroke-width="8"
+    />
+    <path d="M99 71v141M430 71v141" stroke="#8f421d" stroke-width="6" />
+    <path d="M72 88h385v107H72Z" fill="none" stroke="#8f421d" stroke-width="5" />
+    <text x="252" y="116" text-anchor="middle" font-family="Georgia, serif" font-size="31" font-weight="700" fill="#111111">A</text>
+    <text x="252" y="161" text-anchor="middle" font-family="Georgia, serif" font-size="64" font-weight="900" fill="#111111">CHORUS</text>
+    <text x="252" y="201" text-anchor="middle" font-family="Georgia, serif" font-size="35" font-weight="700" fill="#111111">PRODUCTION</text>
+    <text x="75" y="176" text-anchor="middle" font-family="Georgia, serif" font-size="31" fill="#6f3419" transform="rotate(-90 75 176)">143143</text>
+    <text x="458" y="176" text-anchor="middle" font-family="Georgia, serif" font-size="31" fill="#6f3419" transform="rotate(90 458 176)">143143</text>
+  </g>
+  <g transform="translate(92 114)">
+    <path
+      d="M35 58h450c0 26 20 47 45 47v74c-25 0-45 21-45 47H35c0-26-20-47-45-47v-74c25 0 45-21 45-47Z"
+      fill="#f0c744"
+      stroke="#9d3e1e"
+      stroke-width="8"
+    />
+    <path d="M99 71v141M430 71v141" stroke="#9d3e1e" stroke-width="6" />
+    <path d="M72 88h385v107H72Z" fill="none" stroke="#9d3e1e" stroke-width="5" />
+    <text x="252" y="116" text-anchor="middle" font-family="Georgia, serif" font-size="31" font-weight="700" fill="#111111">A</text>
+    <text x="252" y="161" text-anchor="middle" font-family="Georgia, serif" font-size="64" font-weight="900" fill="#111111">CHORUS</text>
+    <text x="252" y="201" text-anchor="middle" font-family="Georgia, serif" font-size="35" font-weight="700" fill="#111111">PRODUCTION</text>
+    <text x="75" y="176" text-anchor="middle" font-family="Georgia, serif" font-size="31" fill="#78371a" transform="rotate(-90 75 176)">143143</text>
+    <text x="458" y="176" text-anchor="middle" font-family="Georgia, serif" font-size="31" fill="#78371a" transform="rotate(90 458 176)">143143</text>
+  </g>
+</svg>

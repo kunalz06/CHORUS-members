@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Vintage theatre collage wall</title>
+  <desc id="desc">A monochrome theatre-themed background with paper notices, masks, tickets, and stage motifs.</desc>
+  <defs>
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="4" seed="6" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0.18 0.5" />
+      </feComponentTransfer>
+    </filter>
+    <linearGradient id="paper" x1="0" x2="1">
+      <stop stop-color="#d7d0bf" />
+      <stop offset="1" stop-color="#a99f8e" />
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="900" fill="#d8d1c0" />
+  <rect width="1400" height="900" filter="url(#rough)" opacity="0.7" />
+  <g opacity="0.28" fill="none" stroke="#221f1a" stroke-width="3">
+    <path d="M42 790c190-120 330-108 510-58 130 36 265 47 402-5 144-55 242-30 392 52" />
+    <path d="M0 210c188 42 298 25 458-35 118-44 215-43 327 4 162 67 331 44 615-35" />
+  </g>
+  <g transform="translate(92 112) rotate(-3)">
+    <rect width="290" height="330" rx="10" fill="url(#paper)" stroke="#30291f" stroke-width="6" />
+    <text x="145" y="78" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-weight="900" fill="#1b1814">আজকের নাটক</text>
+    <text x="145" y="146" text-anchor="middle" font-family="Georgia, serif" font-size="58" font-weight="900" fill="#1b1814">রক্তকরবী</text>
+    <path d="M52 190h186M52 221h150M52 252h210" stroke="#1b1814" stroke-width="5" />
+  </g>
+  <g transform="translate(430 92) rotate(4)">
+    <rect width="310" height="270" rx="9" fill="#cfc5b2" stroke="#30291f" stroke-width="6" />
+    <text x="155" y="105" text-anchor="middle" font-family="Georgia, serif" font-size="82" fill="#1b1814">“</text>
+    <text x="155" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="38" font-weight="800" fill="#1b1814">শিল্পই পারে</text>
+    <text x="155" y="198" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#1b1814">সত্যকে ধরাতে</text>
+  </g>
+  <g transform="translate(830 80)">
+    <circle cx="164" cy="135" r="112" fill="#2d2a25" opacity="0.48" />
+    <path d="M103 203c20-89 38-152 77-178 34 34 53 91 48 176-38 35-82 36-125 2Z" fill="#59544b" opacity="0.8" />
+    <path d="M125 99c36 18 68 17 99-3M132 150c30 17 58 17 84 1" stroke="#171512" stroke-width="8" fill="none" />
+  </g>
+  <g transform="translate(915 470) rotate(9)">
+    <path d="M0 0h330v108H0z" fill="#efc246" stroke="#84351d" stroke-width="7" />
+    <path d="M54 0v108M278 0v108" stroke="#84351d" stroke-width="5" />
+    <text x="166" y="68" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-weight="900" fill="#111">CHORUS</text>
+  </g>
+  <g transform="translate(112 560)">
+    <path d="M0 92c46-132 125-155 236-56-47 129-128 149-236 56Z" fill="#25221d" opacity="0.32" />
+    <path d="M44 64c42-25 86-25 132 0M70 111c30 12 61 12 92 0" stroke="#171512" stroke-width="7" fill="none" />
+  </g>
+  <g transform="translate(596 555) rotate(-2)">
+    <rect width="270" height="250" rx="10" fill="#bfb4a1" stroke="#30291f" stroke-width="6" />
+    <circle cx="135" cy="96" r="46" fill="#2d2a25" opacity="0.45" />
+    <path d="M58 175h154M58 205h126" stroke="#1b1814" stroke-width="6" />
+  </g>
+</svg>

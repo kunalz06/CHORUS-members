@@ -1,23 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { ASSETS } from "./constants/assets";
 import { getAuthErrorMessage } from "./constants/authErrors";
 import { useAuthSession } from "./hooks/useAuthSession";
-import { auth, firebaseConfigStatus } from "./lib/firebase";
+import { auth } from "./lib/firebase";
 import "./styles.css";
+
+const CLUB_NAME = "CHORUS";
+const SPLASH_DURATION_MS = 2500;
+const INTRO_DURATION_MS = 1800;
 
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [screenStep, setScreenStep] = useState("loading");
   const { currentUser, isAuthReady } = useAuthSession();
+
+  useEffect(() => {
+    const splashTimer = window.setTimeout(() => {
+      setScreenStep("intro");
+    }, SPLASH_DURATION_MS);
+
+    const introTimer = window.setTimeout(() => {
+      setScreenStep("login");
+    }, SPLASH_DURATION_MS + INTRO_DURATION_MS);
+
+    return () => {
+      window.clearTimeout(splashTimer);
+      window.clearTimeout(introTimer);
+    };
+  }, []);
 
   async function handleLogin(event) {
     event.preventDefault();
     setErrorMessage("");
 
     if (!auth) {
-      setErrorMessage("Add your Firebase environment values before signing in.");
       return;
     }
 
@@ -41,86 +61,189 @@ export default function App() {
     }
   }
 
+  if (screenStep === "loading") {
+    return <SplashScreen />;
+  }
+
+  if (screenStep === "intro") {
+    return <BrandIntro />;
+  }
+
   if (!isAuthReady) {
-    return (
-      <main className="app-shell">
-        <section className="login-panel">
-          <p className="eyebrow">CHORUS Members</p>
-          <h1>Loading your session</h1>
-        </section>
-      </main>
-    );
+    return <SessionLoading />;
   }
 
   return (
     <main className="app-shell">
-      <section className="login-panel" aria-labelledby="login-heading">
-        <div className="brand-block">
-          <p className="eyebrow">CHORUS Members</p>
-          <h1 id="login-heading">Theatre club login</h1>
-          <p className="intro">
-            Sign in with your assigned club email and password.
-          </p>
+      <section className="hero-board" aria-labelledby="page-heading">
+        <aside className="brand-rail" aria-label={`${CLUB_NAME} club identity`}>
+          <span>C</span>
+          <span>H</span>
+          <span>O</span>
+          <span>R</span>
+          <span>U</span>
+          <span>S</span>
+        </aside>
+
+        <div className="hero-art" aria-hidden="true">
+          <div className="poster-stack">
+            <img className="notice-preview" src={ASSETS.noticeBoard} alt="" />
+          </div>
         </div>
 
-        {!firebaseConfigStatus.isConfigured ? (
-          <div className="setup-notice" role="status">
-            <p className="setup-title">Firebase setup needed</p>
-            <p>
-              The app page is ready. Add the Firebase values in
-              <span> client/.env.local </span>
-              to enable login.
-            </p>
-          </div>
-        ) : null}
+        <div className="login-panel">
+          {currentUser ? (
+            <HomePanel onLogout={handleLogout} />
+          ) : (
+            <>
+              <div className="brand-block">
+                <img
+                  className="panel-logo"
+                  src={ASSETS.logo}
+                  alt={`${CLUB_NAME} logo`}
+                />
+                <h1 id="page-heading">কোরাস</h1>
+              </div>
 
-        {currentUser ? (
-          <div className="signed-in-state">
-            <div>
-              <p className="field-label">Signed in as</p>
-              <p className="user-email">{currentUser.email}</p>
-            </div>
-            <button className="primary-button" type="button" onClick={handleLogout}>
-              Sign out
-            </button>
-          </div>
-        ) : (
-          <form className="login-form" onSubmit={handleLogin}>
-            <label>
-              <span>Email</span>
-              <input
-                autoComplete="email"
-                inputMode="email"
-                name="email"
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="member@college.edu"
-                required
-                type="email"
-                value={email}
+              <LoginForm
+                email={email}
+                errorMessage={errorMessage}
+                isSubmitting={isSubmitting}
+                onEmailChange={setEmail}
+                onPasswordChange={setPassword}
+                onSubmit={handleLogin}
+                password={password}
               />
-            </label>
-
-            <label>
-              <span>Password</span>
-              <input
-                autoComplete="current-password"
-                name="password"
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="Enter password"
-                required
-                type="password"
-                value={password}
-              />
-            </label>
-
-            {errorMessage ? <p className="error-message">{errorMessage}</p> : null}
-
-            <button className="primary-button" disabled={isSubmitting} type="submit">
-              {isSubmitting ? "Signing in..." : "Sign in"}
-            </button>
-          </form>
-        )}
+            </>
+          )}
+        </div>
       </section>
     </main>
+  );
+}
+
+function SplashScreen() {
+  const chorusRows = Array.from({ length: 5 }, (_, index) => index);
+
+  return (
+    <main className="splash-shell" aria-label="Loading CHORUS">
+      <section className="splash-card">
+        <div className="chorus-marquee" aria-hidden="true">
+          {chorusRows.map((row) => (
+            <p key={row}>CHORUS CHORUS CHORUS</p>
+          ))}
+        </div>
+        <div className="progress-track" aria-hidden="true">
+          <span />
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function BrandIntro() {
+  return (
+    <main className="intro-shell" aria-label={`${CLUB_NAME} introduction`}>
+      <section className="intro-card">
+        <img className="intro-logo" src={ASSETS.logo} alt={`${CLUB_NAME} logo`} />
+        <div className="intro-title-group">
+          <h1>{CLUB_NAME}</h1>
+          <div className="intro-dots" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+        <div className="progress-track" aria-hidden="true">
+          <span />
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function SessionLoading() {
+  return (
+    <main className="app-shell">
+      <section className="loading-card">
+        <img className="loading-logo" src={ASSETS.logo} alt={`${CLUB_NAME} logo`} />
+        <h1>কোরাস</h1>
+      </section>
+    </main>
+  );
+}
+
+function HomePanel({ onLogout }) {
+  const homeItems = [
+    { label: "লাইভ প্রোডাকশন", image: ASSETS.noticeBoard },
+    { label: "রিহার্সালের তারিখ", image: ASSETS.loginBackground },
+    { label: "নোটিশ", image: ASSETS.noticeBoard },
+  ];
+
+  return (
+    <section className="home-panel" aria-labelledby="page-heading">
+      <button className="icon-button" type="button" onClick={onLogout} aria-label="Sign out">
+        ×
+      </button>
+      <div className="home-header">
+        <img className="home-logo" src={ASSETS.logo} alt={`${CLUB_NAME} logo`} />
+        <h1 id="page-heading">কোরাস প্রোডাকশন</h1>
+        <p>এক ঝলকে</p>
+      </div>
+      <div className="home-grid">
+        {homeItems.map((item) => (
+          <article className="home-tile" key={item.label}>
+            <img src={item.image} alt="" />
+            <h2>{item.label}</h2>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function LoginForm({
+  email,
+  errorMessage,
+  isSubmitting,
+  onEmailChange,
+  onPasswordChange,
+  onSubmit,
+  password,
+}) {
+  return (
+    <form className="login-form" onSubmit={onSubmit}>
+      <label>
+        <span>ইউজারনেম</span>
+        <input
+          autoComplete="email"
+          inputMode="email"
+          name="email"
+          onChange={(event) => onEmailChange(event.target.value)}
+          required
+          type="email"
+          value={email}
+        />
+      </label>
+
+      <label>
+        <span>পাসওয়ার্ড</span>
+        <input
+          autoComplete="current-password"
+          name="password"
+          onChange={(event) => onPasswordChange(event.target.value)}
+          required
+          type="password"
+          value={password}
+        />
+      </label>
+
+      {errorMessage ? <p className="error-message">{errorMessage}</p> : null}
+
+      <button className="primary-button" disabled={isSubmitting} type="submit">
+        {isSubmitting ? "লগইন" : "লগইন"}
+      </button>
+    </form>
   );
 }
