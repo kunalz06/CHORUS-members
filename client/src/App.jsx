@@ -1,43 +1,26 @@
-import { useEffect, useState } from "react";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { auth } from "./lib/firebase";
+import React, { useState } from "react";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuthErrorMessage } from "./constants/authErrors";
+import { useAuthSession } from "./hooks/useAuthSession";
+import { auth, firebaseConfigStatus } from "./lib/firebase";
 import "./styles.css";
-
-const authErrors = {
-  "auth/invalid-credential": "The email or password is incorrect.",
-  "auth/invalid-email": "Enter a valid email address.",
-  "auth/missing-password": "Enter your password.",
-  "auth/user-disabled": "This account has been disabled.",
-};
-
-function getAuthErrorMessage(error) {
-  return authErrors[error.code] ?? "Unable to log in. Please try again.";
-}
 
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isAuthReady, setIsAuthReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setIsAuthReady(true);
-    });
-
-    return unsubscribe;
-  }, []);
+  const { currentUser, isAuthReady } = useAuthSession();
 
   async function handleLogin(event) {
     event.preventDefault();
     setErrorMessage("");
+
+    if (!auth) {
+      setErrorMessage("Add your Firebase environment values before signing in.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -52,7 +35,10 @@ export default function App() {
 
   async function handleLogout() {
     setErrorMessage("");
-    await signOut(auth);
+
+    if (auth) {
+      await signOut(auth);
+    }
   }
 
   if (!isAuthReady) {
@@ -76,6 +62,17 @@ export default function App() {
             Sign in with your assigned club email and password.
           </p>
         </div>
+
+        {!firebaseConfigStatus.isConfigured ? (
+          <div className="setup-notice" role="status">
+            <p className="setup-title">Firebase setup needed</p>
+            <p>
+              The app page is ready. Add the Firebase values in
+              <span> client/.env.local </span>
+              to enable login.
+            </p>
+          </div>
+        ) : null}
 
         {currentUser ? (
           <div className="signed-in-state">

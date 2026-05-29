@@ -14,11 +14,14 @@ const missingFirebaseConfig = Object.entries(firebaseConfig)
   .filter(([, value]) => !value)
   .map(([key]) => key);
 
-if (missingFirebaseConfig.length > 0) {
-  throw new Error(
-    `Missing Firebase config values: ${missingFirebaseConfig.join(", ")}`,
-  );
-}
+export const isFirebaseConfigured = missingFirebaseConfig.length === 0;
+export const firebaseConfigStatus = {
+  isConfigured: isFirebaseConfigured,
+  missingKeys: missingFirebaseConfig,
+};
 
-export const firebaseApp = initializeApp(firebaseConfig);
-export const auth = getAuth(firebaseApp);
+export const firebaseApp = isFirebaseConfigured
+  ? initializeApp(firebaseConfig)
+  : null;
+
+export const auth = firebaseApp ? getAuth(firebaseApp) : null;
